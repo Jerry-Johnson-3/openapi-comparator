@@ -100,7 +100,7 @@ namespace Criteo.OpenApi.Comparator.Logging
                 return (null, null);
 
             var (token, reference) = FindTokenFromReference(jsonObject);
-            return (token[name], reference);
+            return (token?[name], reference);
         }
 
         private static (JToken token, string reference) FindTokenFromReference(JToken token)
@@ -122,7 +122,7 @@ namespace Criteo.OpenApi.Comparator.Logging
                 switch (token)
                 {
                     case JArray jsonArray:
-                        token = int.TryParse(name, out var i) ? jsonArray[i] : null;
+                        token = int.TryParse(name, out var i) ? jsonArray.ElementAtOrDefault(i) : null;
                         break;
                     case JObject o:
                         (token, reference) = FromObject(o, name);
